@@ -21,13 +21,9 @@ class TaskListViewController: UITableViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
         tasks = DataManager.shared.fetchData()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
      
     @objc func addNewTask() {
-        showAllertController(with: "New Task", and: "What do you want to do", taskObj: nil)
+        showAllertController(with: "New Task", and: "What do you want to do")
     }
 }
 
@@ -74,29 +70,26 @@ extension TaskListViewController {
         }
     }
     
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        true
-    }
-    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let task = tasks[indexPath.row]
-        showAllertController(with: "Edit Task", and: "Enter text", taskObj: task)
+        showAllertController(with: "Edit Task", and: "Enter text", task: task, indexPath: indexPath)
     }
 }
 
 //MARK: AllertController
 extension TaskListViewController {
-    func showAllertController(with title: String, and message: String, taskObj: Task?) {
+    func showAllertController(with title: String, and message: String, task: Task? = nil, indexPath: IndexPath? = nil) {
         let allertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         let saveAction = UIAlertAction(title: "Save", style: .default) { [weak self] _ in
             guard let self = self else {return}
             guard let taskName = allertController.textFields?.first?.text, !taskName.isEmpty else {return}
             
-            if let taskObj = taskObj {
-                taskObj.name = taskName
+            if let task = task {
+                task.name = taskName
                 DataManager.shared.saveContext()
-                self.tableView.reloadData()
+                guard let indexPath = indexPath else {return}
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
             } else {
                 guard let newTask = DataManager.shared.saveToInsert(taskName: taskName) else {return}
                 self.tasks.append(newTask)
@@ -109,7 +102,7 @@ extension TaskListViewController {
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
         
         allertController.addTextField { textField in
-            if let name = taskObj?.name {
+            if let name = task?.name {
             textField.text = name
             }
         }
