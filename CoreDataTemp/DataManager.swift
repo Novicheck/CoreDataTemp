@@ -62,4 +62,21 @@ class DataManager {
             }
         }
     }
+    
+    func search(text: String) -> [Task]? {
+        var tasks:[Task] = []
+        let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
+        var params = [Any]()
+        let sql = "name CONTAINS[cd] %@"
+        params.append(text)
+        let predicate = NSPredicate(format: sql, argumentArray: params)
+        fetchRequest.predicate = predicate
+        do {
+            tasks = try persistentContainer.viewContext.fetch(fetchRequest)
+        } catch {
+            fatalError("Fetching Failed")
+        }
+        return tasks
+    }
+
 }

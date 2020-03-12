@@ -13,6 +13,7 @@
 		9220ED2F2418D1BA0062C9AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9220ED2E2418D1BA0062C9AB /* Assets.xcassets */; };
 		9220ED322418D1BA0062C9AB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9220ED302418D1BA0062C9AB /* LaunchScreen.storyboard */; };
 		9220ED3A24190A830062C9AB /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9220ED3924190A830062C9AB /* DataManager.swift */; };
+		925B7081241AA99900326E7C /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925B7080241AA99900326E7C /* SearchViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		9220ED312418D1BA0062C9AB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9220ED332418D1BA0062C9AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9220ED3924190A830062C9AB /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		925B7080241AA99900326E7C /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				9220ED222418D1B90062C9AB /* AppDelegate.swift */,
 				9220ED3924190A830062C9AB /* DataManager.swift */,
 				9220ED262418D1B90062C9AB /* TaskListViewController.swift */,
+				925B7080241AA99900326E7C /* SearchViewController.swift */,
 				9220ED2E2418D1BA0062C9AB /* Assets.xcassets */,
 				9220ED302418D1BA0062C9AB /* LaunchScreen.storyboard */,
 				9220ED332418D1BA0062C9AB /* Info.plist */,
@@ -137,6 +140,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				925B7081241AA99900326E7C /* SearchViewController.swift in Sources */,
 				9220ED272418D1B90062C9AB /* TaskListViewController.swift in Sources */,
 				9220ED3A24190A830062C9AB /* DataManager.swift in Sources */,
 				9220ED232418D1B90062C9AB /* AppDelegate.swift in Sources */,
