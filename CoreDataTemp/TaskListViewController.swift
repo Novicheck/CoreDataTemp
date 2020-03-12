@@ -12,14 +12,13 @@ import CoreData
 class TaskListViewController: UITableViewController {
     
     private let cellId = "cell"
-    private var tasks = [Task]()
+    private var tasks = DataManager.shared.fetchData()
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationController()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
-        tasks = DataManager.shared.fetchData()
     }
      
     @objc func addNewTask() {
@@ -71,6 +70,7 @@ extension TaskListViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         let task = tasks[indexPath.row]
         showAllertController(with: "Edit Task", and: "Enter text", task: task, indexPath: indexPath)
     }
