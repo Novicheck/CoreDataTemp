@@ -10,19 +10,38 @@ import UIKit
 
 class SearchViewController: UITableViewController {
 
+    private let cellId = "cell"
+    var filteredTask:[Task] = []
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
     }
 
     // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print (filteredTask.count)
+        return filteredTask.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
+        let taskName = filteredTask[indexPath.row].name
+        cell.textLabel?.text = taskName
+        cell.textLabel?.numberOfLines = 0
+        return cell
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+}
+
+extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate, UISearchControllerDelegate {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text else {return}
+        if let filteredArray = DataManager.shared.search(text: searchText) {
+            filteredTask = filteredArray
+            print(filteredTask)
+        }
+        tableView.reloadData()
     }
 }

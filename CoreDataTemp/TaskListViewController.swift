@@ -9,20 +9,18 @@
 import UIKit
 import CoreData
 
-class TaskListViewController: UITableViewController {
+class TaskListViewController: UITableViewController, UISearchControllerDelegate {
     
     private let cellId = "cell"
     private var tasks = DataManager.shared.fetchData()
-    private var filteredTask:[Task] = []
-    
-    private let searchController = UISearchController(searchResultsController: nil)
-    private var searchBarIsEmpty: Bool {
-        guard let text = searchController.searchBar.text else {return false}
-        return text.isEmpty
-    }
-    private var isFiltering: Bool {
-        return searchController.isActive && !searchBarIsEmpty
-    }
+//    private var filteredTask:[Task] = []
+//    private var searchBarIsEmpty: Bool {
+//        guard let text = searchController.searchBar.text else {return false}
+//        return text.isEmpty
+//    }
+//    private var isFiltering: Bool {
+//        return searchController.isActive && !searchBarIsEmpty
+//    }
     
 
 
@@ -34,7 +32,9 @@ class TaskListViewController: UITableViewController {
     }
     
     func setupSearchController () {
-        searchController.searchResultsUpdater = self
+        let searchVC = SearchViewController()
+        let searchController = UISearchController(searchResultsController: searchVC)
+        searchController.searchResultsUpdater = searchVC
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Task"
         searchController.searchBar.searchTextField.backgroundColor = .lightGray
@@ -71,21 +71,21 @@ extension TaskListViewController {
 //MARK: UITableViewDataSource, UITableViewDelegate
 extension TaskListViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if isFiltering {
-            return filteredTask.count
-        } else {
+//        if isFiltering {
+//            return filteredTask.count
+//        } else {
             return tasks.count
-        }
+//        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
         var taskName:String
-        if isFiltering{
-            taskName = filteredTask[indexPath.row].name ?? ""
-        } else {
+//        if isFiltering{
+//            taskName = filteredTask[indexPath.row].name ?? ""
+//        } else {
             taskName = tasks[indexPath.row].name ?? ""
-        }
+//        }
         cell.textLabel?.text = taskName
         cell.textLabel?.numberOfLines = 0
         return cell
@@ -94,17 +94,16 @@ extension TaskListViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let task:Task
-            if isFiltering {
-                task = filteredTask[indexPath.row]
-                filteredTask.remove(at: indexPath.row)
-                tableView.deleteRows(at: [indexPath], with: .fade)
-            } else {
+//            if isFiltering {
+//                task = filteredTask[indexPath.row]
+//                filteredTask.remove(at: indexPath.row)
+//                tableView.deleteRows(at: [indexPath], with: .fade)
+//            } else {
                 task = tasks[indexPath.row]
                 tasks.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
-            }
+//            }
             DataManager.shared.deleteTask(task: task)
-            
         }
     }
     
@@ -152,13 +151,13 @@ extension TaskListViewController {
     }
 }
 
-extension TaskListViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        guard let searchText = searchController.searchBar.text else {return}
-        if let filteredArray = DataManager.shared.search(text: searchText) {
-            filteredTask = filteredArray
-            print (filteredTask)
-        }
-        tableView.reloadData()
-    }
-}
+//extension TaskListViewController: UISearchResultsUpdating {
+//    func updateSearchResults(for searchController: UISearchController) {
+//        guard let searchText = searchController.searchBar.text else {return}
+//        if let filteredArray = DataManager.shared.search(text: searchText) {
+//            searchVC.filteredTask = filteredArray
+//            print (searchVC.filteredTask)
+//        }
+//        tableView.reloadData()
+//    }
+//}
